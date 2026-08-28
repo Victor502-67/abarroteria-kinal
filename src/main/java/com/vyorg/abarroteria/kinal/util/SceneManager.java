@@ -53,7 +53,7 @@ public class SceneManager {
         clazz ->{
             if(clazz == DashboardController.class){
                 ProductoRepository productoRepository= new ProductoRepository();
-                DashboardService service = new DashboardService();
+                DashboardService service = new DashboardService(productoRepository); 
             return new DashboardController(service,this);
             
             }
@@ -82,4 +82,15 @@ public class SceneManager {
     alert.showAndWait();
     }
 
+    public boolean showConfirmation(String head, String title, String content){
+    Alert alert = new Alert(AlertType.CONFIRMATION);
+    alert.initOwner(this.stage);
+    alert.setHeaderText(head);
+    alert.setTitle(title);
+    alert.setContentText(content);
+    return alert.showAndWait()
+            .filter(buttonType -> buttonType == javafx.scene.control.ButtonType.OK)
+            .isPresent();
+}
+    
 }

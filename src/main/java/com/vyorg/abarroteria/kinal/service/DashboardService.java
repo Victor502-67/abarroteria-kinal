@@ -7,12 +7,11 @@ import main.java.com.vyorg.abarroteria.kinal.repository.ProductoRepository;
 
 public class DashboardService {
   private final ProductoRepository productoRepository;
-  private final DashboardService dashboardService;
 
-public DashboardService(ProductoRepository productoRepository, DashboardService dashboardService){
+
+public DashboardService(ProductoRepository productoRepository){
     this.productoRepository = productoRepository;
-    this.dashboardService=dashboardService;
-} 
+}
 
 public ObservableList<Producto>findProducto(){
     if(productoRepository.findAll() == null){
@@ -21,4 +20,15 @@ public ObservableList<Producto>findProducto(){
     return productoRepository.findAll();
         }
     }
+public void eliminarProducto(String idProducto){
+    if(idProducto == null || idProducto.isBlank()){
+        throw new RuntimeException("Debe seleccionar un producto valido");
+    }
+
+    boolean eliminado = productoRepository.eliminarProducto(idProducto);
+
+    if(!eliminado){
+        throw new RuntimeException("No se pudo eliminar el producto");
+    }
+}
 }
