@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javafx.collections.FXCollections;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 public class ProductoRepository {
     
@@ -27,5 +28,17 @@ public class ProductoRepository {
             }catch(SQLException e){
                 throw new RuntimeException("Error en la consulta");
             }
+}
+    public boolean eliminarProducto(String idProducto){
+    String sql = "delete from productos where id_producto = ?";
+    try(PreparedStatement pstm = DataBaseConnection.getDataBaseConnection().prepareStatement(sql)){
+        pstm.setString(1, idProducto);
+        int filasAfectadas = pstm.executeUpdate();
+        return filasAfectadas > 0;
+    }catch(SQLIntegrityConstraintViolationException e){
+        throw new RuntimeException("No se puede eliminar este producto");
+    }catch(SQLException e){
+        throw new RuntimeException("Error al eliminar el producto: " + e.getMessage());
+    }
 }
 }

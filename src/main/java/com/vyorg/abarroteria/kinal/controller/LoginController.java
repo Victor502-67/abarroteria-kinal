@@ -44,6 +44,7 @@ public class LoginController implements Initializable {
         try{
             LoginDTOResponse response = authService.login(new LoginDTORequest(txtFieldEmail.getText(),txtFieldPassword.getText()));
             sceneManager.showAlertInfo("Bienvenido: " + response.getNombre(), "Es bueno verte:", "Inicio de sesion correcto", Alert.AlertType.INFORMATION);
+             sceneManager.showDashboardView();
         }catch(RuntimeException e){
             sceneManager.showAlertInfo("Error al inicar sesion", "Verifique los campos", "No se ha podido iniciar sesion", Alert.AlertType.WARNING);
         }
